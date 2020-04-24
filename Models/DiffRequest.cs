@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 
-namespace mongo_leaf_validator_example.Controllers
+namespace mongo_leaf_validator_example.Models
 {
     public class DiffRequest
     {
