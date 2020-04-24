@@ -77,11 +77,20 @@ export function App() {
     loadCurrentModel();
   }, []);
 
-  return (
+  return !model ? (
+    <i>Loading...</i>
+  ) : (
     <div className="App">
       <form>
         {form.map(({ name, inputProps, ...formElement }, index) => (
-          <p key={index}>
+          <div
+            key={index}
+            style={{
+              width: "200px",
+              display: "inline-block",
+              paddingRight: "10px",
+            }}
+          >
             <Leaf
               showErrors={showAllValidation}
               model={model}
@@ -113,8 +122,11 @@ export function App() {
                 </label>
               )}
             </Leaf>
-          </p>
+          </div>
         ))}
+        <br />
+        &nbsp;
+        <br />
         <button
           disabled={isSubmitting}
           className="btn btn-primary"
