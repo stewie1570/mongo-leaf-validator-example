@@ -1,18 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 
 namespace mongo_leaf_validator_example.Controllers
 {
-    public class Diff
-    {
-        public string Location { get; set; }
-        public JsonElement UpdatedValue { get; set; }
-    }
 
     [ApiController]
     [Route("[controller]")]
@@ -36,32 +31,20 @@ namespace mongo_leaf_validator_example.Controllers
         }
 
         [HttpPost]
-        public async Task UpdateContact([FromBody] List<Diff> diffs)
+        public async Task UpdateContact([FromBody] List<DiffRequest> diffs)
         {
             var db = mongoClient.GetDatabase("stewie-test");
 
-            var updates = diffs
-                .Select(diff =>
-                {
-                    switch (diff.UpdatedValue.ValueKind)
-                    {
-                        case JsonValueKind.False:
-                        case JsonValueKind.True:
-                            return Builders<BsonDocument>.Update.Set(diff.Location, diff.UpdatedValue.GetBoolean());
-                        case JsonValueKind.Number:
-                            return Builders<BsonDocument>.Update.Set(diff.Location, diff.UpdatedValue.GetDouble());
-                        case JsonValueKind.Undefined:
-                            return Builders<BsonDocument>.Update.Unset(diff.Location);
-                        default:
-                            return Builders<BsonDocument>.Update.Set(diff.Location, diff.UpdatedValue.GetString());
-                    }
-                });
+            var audits = diffs.ToAudits();
 
             await db
                 .GetCollection<BsonDocument>("Contacts")
                 .UpdateOneAsync(
                     Builders<BsonDocument>.Filter.Eq("contactNumber", 0),
-                    Builders<BsonDocument>.Update.Combine(updates));
+                    Builders<BsonDocument>.Update.Combine(audits.ToMongoUpdates()));
+
+            string json = JsonConvert.SerializeObject(new { diffs = audits });
+            await db.GetCollection<BsonDocument>("Audits").InsertOneAsync(BsonDocument.Parse(json));
         }
     }
 }
