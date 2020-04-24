@@ -89,6 +89,7 @@ export function App() {
               width: "200px",
               display: "inline-block",
               paddingRight: "10px",
+              verticalAlign: "top",
             }}
           >
             <Leaf
@@ -113,7 +114,11 @@ export function App() {
                   {errors.length > 0 && (
                     <ul className="errors">
                       {errors.map((error, index) => (
-                        <li data-testid="error" key={index}>
+                        <li
+                          data-testid="error"
+                          style={{ overflowWrap: "anywhere" }}
+                          key={index}
+                        >
                           {error}
                         </li>
                       ))}
