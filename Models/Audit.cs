@@ -25,10 +25,14 @@ namespace mongo_leaf_validator_example.Models
         {
             return audits
                 .OfType<AuditUpdatedValue>()
-                .Select(audit => Builders<BsonDocument>.Update.Set(audit.Location, audit.UpdatedValue))
+                .Select(audit => Builders<BsonDocument>
+                    .Update
+                    .Set(audit.Location, audit.UpdatedValue))
                 .Concat(audits
                 .OfType<AuditUndefinedValue>()
-                .Select(audit => Builders<BsonDocument>.Update.Unset(audit.Location)));
+                .Select(audit => Builders<BsonDocument>
+                    .Update
+                    .Unset(audit.Location)));
         }
     }
 }

@@ -21,13 +21,25 @@ namespace mongo_leaf_validator_example.Models
                     {
                         case JsonValueKind.False:
                         case JsonValueKind.True:
-                            return (Audit)new AuditUpdatedValue { Location = diff.Location, UpdatedValue = diff.UpdatedValue.GetBoolean() };
+                            return (Audit)new AuditUpdatedValue
+                            {
+                                Location = diff.Location,
+                                UpdatedValue = diff.UpdatedValue.GetBoolean()
+                            };
                         case JsonValueKind.Number:
-                            return new AuditUpdatedValue { Location = diff.Location, UpdatedValue = diff.UpdatedValue.GetDouble() };
+                            return new AuditUpdatedValue
+                            {
+                                Location = diff.Location,
+                                UpdatedValue = diff.UpdatedValue.GetDouble()
+                            };
                         case JsonValueKind.Undefined:
                             return new AuditUndefinedValue { Location = diff.Location };
                         default:
-                            return new AuditUpdatedValue { Location = diff.Location, UpdatedValue = diff.UpdatedValue.GetString() };
+                            return new AuditUpdatedValue
+                            {
+                                Location = diff.Location,
+                                UpdatedValue = diff.UpdatedValue.GetString()
+                            };
                     }
                 })
                 .ToList();
