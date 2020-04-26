@@ -44,8 +44,11 @@ namespace mongo_leaf_validator_example.Controllers
                     Builders<BsonDocument>.Filter.Eq("contactNumber", 0),
                     Builders<BsonDocument>.Update.Combine(audits.ToMongoUpdates()));
 
-            string json = JsonConvert.SerializeObject(new { diffs = audits });
-            await db.GetCollection<BsonDocument>("Audits").InsertOneAsync(BsonDocument.Parse(json));
+            await db
+                .GetCollection<BsonDocument>("Audits")
+                .InsertOneAsync(BsonDocument
+                    .Parse(JsonConvert
+                        .SerializeObject(new { diffs = audits })));
         }
     }
 }
