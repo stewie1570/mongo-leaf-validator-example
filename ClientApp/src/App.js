@@ -40,7 +40,8 @@ const form = [
   },
   {
     name: "Phone Number",
-    location: "person.contact.phoneNumber",
+    location: "person.voiceContact.phoneNumber",
+    failOverLocations: ["person.contact.phoneNumber"],
     validators: [isRequired, isValidPhoneNumber],
   },
   {
