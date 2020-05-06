@@ -34,7 +34,7 @@ namespace mongo_leaf_validator_example
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "build";
             });
         }
 
@@ -73,7 +73,7 @@ namespace mongo_leaf_validator_example
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = ".";
 
                 if (env.IsDevelopment())
                 {
