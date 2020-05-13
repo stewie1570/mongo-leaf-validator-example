@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using mongo_leaf_validator_example.Middlewares;
 using MongoDB.Driver;
 
 namespace mongo_leaf_validator_example
@@ -59,6 +60,7 @@ namespace mongo_leaf_validator_example
             }
 
             app.UseHttpsRedirection();
+            app.UseReverseProxyHttpsEnforcer();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
