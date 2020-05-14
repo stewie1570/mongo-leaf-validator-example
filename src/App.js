@@ -89,7 +89,7 @@ export function App() {
             style={{
               width: "200px",
               display: "inline-block",
-              paddingRight: "10px",
+              paddingLeft: "10px",
               verticalAlign: "top",
             }}
           >
@@ -138,6 +138,7 @@ export function App() {
           className="btn btn-primary"
           type="submit"
           onClick={submit}
+          style={{ marginLeft: "10px" }}
         >
           {isSubmitting ? "Submitting..." : "Submit"}
         </button>
@@ -150,6 +151,7 @@ export function App() {
         onClick={() =>
           setModel(set("person.favoriteNumber").to(undefined).in(model))
         }
+        style={{ marginLeft: "10px" }}
       >
         Delete Favorite #
       </button>
