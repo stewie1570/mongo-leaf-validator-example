@@ -78,6 +78,7 @@ export function App() {
 
   useEffect(() => {
     showLoadingModelWhile(loadCurrentModel());
+    // eslint-disable-next-line
   }, []);
 
   return isLoadingModel ? (
