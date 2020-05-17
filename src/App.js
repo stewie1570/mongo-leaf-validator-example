@@ -57,14 +57,16 @@ export function App() {
   const validationModel = useValidationModel();
   const [showAllValidation, setShowAllValidation] = useState(false);
   const [isSubmitting, showSubmittingWhile] = useLoadingState();
+  const [isLoadingModel, showLoadingModelWhile] = useLoadingState();
   const submit = async (event) => {
     event.preventDefault();
     setShowAllValidation(true);
     if (validationModel.getAllErrorsForLocation("").length === 0) {
+      const postedModel = model;
       await showSubmittingWhile(
         axios.post("/Contact", leafDiff.from(originalModel).to(model))
       );
-      setOriginalModel(model);
+      setOriginalModel(postedModel);
     }
   };
 
@@ -75,12 +77,12 @@ export function App() {
   };
 
   useEffect(() => {
-    loadCurrentModel();
+    showLoadingModelWhile(loadCurrentModel());
   }, []);
 
-  return !model ? (
+  return isLoadingModel ? (
     <i>Loading...</i>
-  ) : (
+  ) : !model ? <></> : (
     <div className="App">
       <form>
         {form.map(({ name, inputProps, ...formElement }, index) => (
@@ -110,7 +112,7 @@ export function App() {
                     onBlur={onBlur}
                     className={`${
                       errors.length > 0 ? "is-invalid " : ""
-                    }form-control mb-1`}
+                      }form-control mb-1`}
                   />
                   {errors.length > 0 && (
                     <ul className="errors">
