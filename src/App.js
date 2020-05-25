@@ -61,7 +61,7 @@ export function App() {
   const submit = async (event) => {
     event.preventDefault();
     setShowAllValidation(true);
-    if (validationModel.getAllErrorsForLocation("").length === 0) {
+    if (validationModel.getAllErrorsForLocation().length === 0) {
       const postedModel = model;
       await showSubmittingWhile(
         axios.post("/Contact", leafDiff.from(originalModel).to(model))
