@@ -5995,10 +5995,10 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-leaf-validator@^3.4.4:
-  version "3.4.4"
-  resolved "https://registry.yarnpkg.com/leaf-validator/-/leaf-validator-3.4.4.tgz#3adfd38d7e74eb59b10d378f051a312f6cca7442"
-  integrity sha512-d8qveWGkF7+TqvfyoVzdGWII5WREsrb4k0xVBFYWSwqjKGK31Lt6VUV1A9w0PlZcvcnXpNgr/pUNRieQiSir5Q==
+leaf-validator@^3.4.5:
+  version "3.4.5"
+  resolved "https://registry.yarnpkg.com/leaf-validator/-/leaf-validator-3.4.5.tgz#2f4e63ac5e92a5ef0c5a7a7696522740131db7ad"
+  integrity sha512-hNd42RHvXVwoK9B8ItD6vlk6oxLn1kvwlqL1d/O+LDvr+8qb/uPF6r9x8FKiFEXo1t1lkdD4OKOJ3B8AJKrFdg==
   dependencies:
     "@scarf/scarf" "^1.0.6"
 
