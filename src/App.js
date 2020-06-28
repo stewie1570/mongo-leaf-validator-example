@@ -62,11 +62,12 @@ export function App() {
     event.preventDefault();
     setShowAllValidation(true);
     if (validationModel.getAllErrorsForLocation().length === 0) {
-      const postedModel = model;
       await showSubmittingWhile(
-        axios.post("/Contact", leafDiff.from(originalModel).to(model))
+        axios
+          .post("/Contact", leafDiff.from(originalModel).to(model))
+          .catch(() => {})
+          .then(loadCurrentModel)
       );
-      setOriginalModel(postedModel);
     }
   };
 
