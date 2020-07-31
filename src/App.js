@@ -5,6 +5,7 @@ import {
   useLoadingState,
   leafDiff,
   set,
+  useErrorHandler,
 } from "leaf-validator";
 import { TextInput } from "./components/TextInput";
 import axios from "axios";
@@ -58,15 +59,18 @@ export function App() {
   const [showAllValidation, setShowAllValidation] = useState(false);
   const [isSubmitting, showSubmittingWhile] = useLoadingState();
   const [isLoadingModel, showLoadingModelWhile] = useLoadingState();
+  const { clearError, errorHandler, errors } = useErrorHandler();
   const submit = async (event) => {
     event.preventDefault();
     setShowAllValidation(true);
     if (validationModel.getAllErrorsForLocation().length === 0) {
-      await showSubmittingWhile(
-        axios
-          .post("/Contact", leafDiff.from(originalModel).to(model))
-          .catch(() => {})
-          .then(loadCurrentModel)
+      await errorHandler(
+        showSubmittingWhile(
+          axios
+            .post("/Contact", leafDiff.from(originalModel).to(model))
+            .catch(() => {})
+            .then(loadCurrentModel)
+        )
       );
     }
   };
@@ -84,8 +88,25 @@ export function App() {
 
   return isLoadingModel ? (
     <i>Loading...</i>
-  ) : !model ? <></> : (
+  ) : !model ? (
+    <></>
+  ) : (
     <div className="App">
+      {errors?.length > 0 && (
+        <ul>
+          {errors.map((error) => (
+            <li key={error.message}>
+              <button
+                className="btn btn-danger"
+                onClick={() => clearError(error)}
+              >
+                X
+              </button>
+              {error.message}
+            </li>
+          ))}
+        </ul>
+      )}
       <form>
         {form.map(({ name, inputProps, ...formElement }, index) => (
           <div
@@ -114,7 +135,7 @@ export function App() {
                     onBlur={onBlur}
                     className={`${
                       errors.length > 0 ? "is-invalid " : ""
-                      }form-control mb-1`}
+                    }form-control mb-1`}
                   />
                   {errors.length > 0 && (
                     <ul className="errors">
