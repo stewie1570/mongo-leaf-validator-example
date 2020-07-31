@@ -68,7 +68,6 @@ export function App() {
         showSubmittingWhile(
           axios
             .post("/Contact", leafDiff.from(originalModel).to(model))
-            .catch(() => {})
             .then(loadCurrentModel)
         )
       );
