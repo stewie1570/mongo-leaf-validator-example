@@ -75,7 +75,7 @@ namespace mongo_leaf_validator_example
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "../";
+                spa.Options.SourcePath = ".";
 
                 if (env.IsDevelopment())
                 {
