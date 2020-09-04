@@ -4,14 +4,15 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "axios": "^0.19.2",
-    "bootstrap": "4.4.1",
+    "axios": "^0.20.0",
+    "bootstrap": "4.5.2",
     "leaf-validator": "^3.5.3",
-    "react": "16.12.0",
-    "react-dom": "16.12.0",
-    "react-scripts": "3.0.1"
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-scripts": "3.4.3"
   },
   "devDependencies": {
+    "@testing-library/react": "^11.0.2",
     "source-map-explorer": "^2.5.0",
     "typescript": "3.3.3"
   },
@@ -19,7 +20,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "tdd": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --env=jsdom --watchAll=false --colors --coverage",
     "eject": "react-scripts eject"
   },
   "browserslist": [
