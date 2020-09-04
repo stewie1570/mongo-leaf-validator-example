@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Interfaces;
 using Domain.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -7,12 +8,6 @@ using Newtonsoft.Json;
 
 namespace Storage
 {
-    public interface IContactsRepository
-    {
-        Task<object> GetContact();
-        Task UpdateContact(List<DiffRequest> diffs);
-    }
-
     public class ContactsRepository : IContactsRepository
     {
         private readonly MongoClient mongoClient;
