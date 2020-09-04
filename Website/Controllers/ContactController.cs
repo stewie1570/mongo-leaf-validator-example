@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Storage;
-using Storage.Models;
 
 namespace mongo_leaf_validator_example.Controllers
 {
