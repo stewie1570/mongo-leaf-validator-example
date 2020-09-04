@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using mongo_leaf_validator_example.Middlewares;
 using MongoDB.Driver;
+using Storage;
 
 namespace mongo_leaf_validator_example
 {
@@ -26,6 +27,7 @@ namespace mongo_leaf_validator_example
 
             services.AddControllersWithViews();
             services.AddSingleton<MongoClient>(sp => new MongoClient(Configuration["MongoConnectionString"]));
+            services.AddScoped<IContactsRepository, ContactsRepository>();
 
             services.AddSwaggerGen(c =>
             {

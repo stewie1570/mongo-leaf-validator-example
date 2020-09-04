@@ -1,54 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using mongo_leaf_validator_example.Models;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Newtonsoft.Json;
+using Storage;
+using Storage.Models;
 
 namespace mongo_leaf_validator_example.Controllers
 {
-
     [ApiController]
     [Route("[controller]")]
     public class ContactController : ControllerBase
     {
-        private readonly MongoClient mongoClient;
+        private readonly IContactsRepository contacts;
 
-        public ContactController(MongoClient mongoClient)
+        public ContactController(IContactsRepository contacts)
         {
-            this.mongoClient = mongoClient;
+            this.contacts = contacts;
         }
 
         [HttpGet]
         public async Task<object> GetContact()
         {
-            var db = mongoClient.GetDatabase("stewie-test");
-            return (await db
-                    .GetCollection<object>("Contacts")
-                    .FindAsync(Builders<object>.Filter.Eq("contactNumber", 0)))
-                    .First();
+            return await contacts.GetContact();
         }
 
         [HttpPost]
         public async Task UpdateContact([FromBody] List<DiffRequest> diffs)
         {
-            var db = mongoClient.GetDatabase("stewie-test");
-
-            var audits = diffs.ToAudits();
-
-            await db
-                .GetCollection<BsonDocument>("Contacts")
-                .UpdateOneAsync(
-                    Builders<BsonDocument>.Filter.Eq("contactNumber", 0),
-                    Builders<BsonDocument>.Update.Combine(audits.ToMongoUpdates()));
-
-            await db
-                .GetCollection<BsonDocument>("Audits")
-                .InsertOneAsync(BsonDocument
-                    .Parse(JsonConvert
-                        .SerializeObject(new { diffs = audits })));
+            await contacts.UpdateContact(diffs);
         }
     }
 }

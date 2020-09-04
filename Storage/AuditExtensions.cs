@@ -1,24 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using Domain.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace mongo_leaf_validator_example.Models
+namespace Storage
 {
-    public class Audit
-    {
-        public string Location { get; set; }
-    }
-
-    public class AuditUpdatedValue : Audit
-    {
-        public object UpdatedValue { get; set; }
-    }
-
-    public class AuditUndefinedValue : Audit
-    {
-    }
-
     public static class AuditExtensions
     {
         public static IEnumerable<UpdateDefinition<BsonDocument>> ToMongoUpdates(this IEnumerable<Audit> audits)
