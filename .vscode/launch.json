@@ -9,9 +9,9 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Server/bin/Debug/netcoreapp3.1/mongo-leaf-validator-example.dll",
+            "program": "${workspaceFolder}/Website/bin/Debug/netcoreapp3.1/mongo-leaf-validator-example.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Server",
+            "cwd": "${workspaceFolder}/Website",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",
