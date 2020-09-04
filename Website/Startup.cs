@@ -27,7 +27,7 @@ namespace mongo_leaf_validator_example
 
             services.AddControllersWithViews();
             services.AddSingleton<MongoClient>(sp => new MongoClient(Configuration["MongoConnectionString"]));
-            services.AddScoped<IContactsRepository, ContactsRepository>();
+            services.AddScoped<IContactsRepository, MongoContactsRepository>();
 
             services.AddSwaggerGen(c =>
             {

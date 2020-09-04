@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 
 namespace Storage
 {
-    public class ContactsRepository : IContactsRepository
+    public class MongoContactsRepository : IContactsRepository
     {
         private readonly MongoClient mongoClient;
 
-        public ContactsRepository(MongoClient mongoClient)
+        public MongoContactsRepository(MongoClient mongoClient)
         {
             this.mongoClient = mongoClient;
         }
