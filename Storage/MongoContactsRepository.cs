@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Interfaces;
@@ -28,21 +29,36 @@ namespace Storage
 
         public async Task UpdateContact(List<DiffRequest> diffs)
         {
-            var db = mongoClient.GetDatabase("stewie-test");
+            using (var session = await mongoClient.StartSessionAsync())
+            {
+                try
+                {
+                    session.StartTransaction();
 
-            var audits = diffs.ToAudits();
+                    var db = mongoClient.GetDatabase("stewie-test");
 
-            await db
-                .GetCollection<BsonDocument>("Contacts")
-                .UpdateOneAsync(
-                    Builders<BsonDocument>.Filter.Eq("contactNumber", 0),
-                    Builders<BsonDocument>.Update.Combine(audits.ToMongoUpdates()));
+                    var audits = diffs.ToAudits();
 
-            await db
-                .GetCollection<BsonDocument>("Audits")
-                .InsertOneAsync(BsonDocument
-                    .Parse(JsonConvert
-                        .SerializeObject(new { diffs = audits })));
+                    await db
+                        .GetCollection<BsonDocument>("Contacts")
+                        .UpdateOneAsync(
+                            Builders<BsonDocument>.Filter.Eq("contactNumber", 0),
+                            Builders<BsonDocument>.Update.Combine(audits.ToMongoUpdates()));
+
+                    await db
+                        .GetCollection<BsonDocument>("Audits")
+                        .InsertOneAsync(BsonDocument
+                            .Parse(JsonConvert
+                                .SerializeObject(new { diffs = audits })));
+
+                    await session.CommitTransactionAsync();
+                }
+                catch (Exception)
+                {
+                    await session.AbortTransactionAsync();
+                    throw;
+                }
+            }
         }
     }
 }
