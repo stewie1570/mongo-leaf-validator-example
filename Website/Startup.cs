@@ -1,4 +1,5 @@
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -24,7 +25,9 @@ namespace mongo_leaf_validator_example
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie();
             services.AddControllersWithViews();
             services.AddSingleton<MongoClient>(sp => new MongoClient(Configuration["MongoConnectionString"]));
             services.AddScoped<IContactsRepository, MongoContactsRepository>();
@@ -63,6 +66,8 @@ namespace mongo_leaf_validator_example
 
             app.UseHttpsRedirection();
             app.UseReverseProxyHttpsEnforcer();
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
