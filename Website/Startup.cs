@@ -1,6 +1,7 @@
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using mongo_leaf_validator_example.Middlewares;
 using MongoDB.Driver;
+using StackExchange.Redis;
 using Storage;
 
 namespace mongo_leaf_validator_example
@@ -28,6 +30,9 @@ namespace mongo_leaf_validator_example
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+            var redis = ConnectionMultiplexer.Connect(Configuration["RedisConnectionString"]);
+            services.AddDataProtection()
+                .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys");
             services.AddControllersWithViews();
             services.AddSingleton<MongoClient>(sp => new MongoClient(Configuration["MongoConnectionString"]));
             services.AddScoped<IContactsRepository, MongoContactsRepository>();
