@@ -29,7 +29,7 @@ namespace mongo_leaf_validator_example
         {
             services
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie();
+                .AddCookie(ops => { ops.SlidingExpiration = true; });
             var redis = ConnectionMultiplexer.Connect(Configuration["RedisConnectionString"]);
             services.AddDataProtection()
                 .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys");
