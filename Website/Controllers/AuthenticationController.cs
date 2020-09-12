@@ -42,12 +42,8 @@ namespace Website.Controllers
             return new
             {
                 Name = HttpContext.User.Identity.Name,
-                Role = HttpContext
-                    .User
-                    .Claims
-                    .ToList()
-                    .FirstOrDefault(claim => claim.Type == ClaimTypes.Role)
-                    ?.Value
+                FullName = GetClaim("FullName"),
+                Role = GetClaim(ClaimTypes.Role)
             };
         }
 
@@ -56,5 +52,19 @@ namespace Website.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
+
+        #region Helpers
+
+        private string GetClaim(string claimType)
+        {
+            return HttpContext
+                .User
+                .Claims
+                .ToList()
+                .FirstOrDefault(claim => claim.Type == claimType)
+                ?.Value;
+        }
+
+        #endregion
     }
 }
