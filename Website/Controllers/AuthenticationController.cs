@@ -27,7 +27,7 @@ namespace Website.Controllers
 
             var authProperties = new AuthenticationProperties
             {
-
+                IsPersistent = true
             };
 
             await HttpContext.SignInAsync(
