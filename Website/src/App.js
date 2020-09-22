@@ -113,7 +113,7 @@ export function App() {
             </ul>
           )}
           <pre>
-            Current User:{JSON.stringify(user, null, 4)}
+            Authenticated User (Test): {JSON.stringify(user, null, 4)}
           </pre>
           <Button
             className="btn btn-primary"
@@ -154,8 +154,7 @@ export function App() {
                         value={value}
                         onChange={onChange}
                         onBlur={onBlur}
-                        className={`${
-                          errors.length > 0 ? "is-invalid " : ""
+                        className={`${errors.length > 0 ? "is-invalid " : ""
                           }form-control mb-1`}
                       />
                       {errors.length > 0 && (
