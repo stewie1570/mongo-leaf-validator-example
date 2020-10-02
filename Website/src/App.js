@@ -9,7 +9,7 @@ import {
 } from "leaf-validator";
 import { TextInput } from "./components/TextInput";
 import axios from "axios";
-import { Button } from './Button'
+import { Button } from "./Button";
 import "./custom.css";
 
 const isRequired = (value) =>
@@ -58,7 +58,9 @@ export function App() {
   const validationModel = useValidationModel();
   const [showAllValidation, setShowAllValidation] = useState(false);
   const [user, setUser] = useState();
-  const [isSubmitting, showSubmittingWhile] = useLoadingState();
+  const [isSubmitting, showSubmittingWhile] = useLoadingState({
+    minLoadingTime: 1000,
+  });
   const [isLoadingModel, showLoadingModelWhile] = useLoadingState();
   const { clearError, errorHandler, errors } = useErrorHandler();
   const submit = async (event) => {
@@ -81,9 +83,10 @@ export function App() {
     setOriginalModel(model);
   };
 
-  const loadCurrentUser = () => errorHandler(axios
-    .get("/Authentication")
-    .then(({ data }) => setUser(data)));
+  const loadCurrentUser = () =>
+    errorHandler(
+      axios.get("/Authentication").then(({ data }) => setUser(data))
+    );
 
   useEffect(() => {
     showLoadingModelWhile(loadCurrentModel());
@@ -96,110 +99,115 @@ export function App() {
   ) : !model ? (
     <></>
   ) : (
-        <div className="App">
-          {errors?.length > 0 && (
-            <ul>
-              {errors.map((error) => (
-                <li key={error.message}>
-                  <button
-                    className="btn btn-danger"
-                    onClick={() => clearError(error)}
-                  >
-                    X
-              </button>
-                  {error.message}
-                </li>
-              ))}
-            </ul>
-          )}
-          <pre>
-            Authenticated User (Test): {JSON.stringify(user, null, 4)}
-          </pre>
-          <Button
-            className="btn btn-primary"
-            whileProcessing={<i>Processing...</i>}
-            onClick={() => errorHandler(axios.post("/Authentication").then(loadCurrentUser))}>
-            Login
-          </Button>
-          &nbsp;
-          <Button
-            className="btn btn-primary"
-            whileProcessing={<i>Processing...</i>}
-            onClick={() => errorHandler(axios.delete("/Authentication").then(loadCurrentUser))}>
-            Log Out
-          </Button>
-          <form>
-            {form.map(({ name, inputProps, ...formElement }, index) => (
-              <div
-                key={index}
-                style={{
-                  width: "200px",
-                  display: "inline-block",
-                  paddingLeft: "10px",
-                  verticalAlign: "top",
-                }}
+    <div className="App">
+      {errors?.length > 0 && (
+        <ul>
+          {errors.map((error) => (
+            <li key={error.message}>
+              <button
+                className="btn btn-danger"
+                onClick={() => clearError(error)}
               >
-                <Leaf
-                  showErrors={showAllValidation}
-                  model={model}
-                  onChange={setModel}
-                  validationModel={validationModel}
-                  {...formElement}
-                >
-                  {(value, onChange, onBlur, errors) => (
-                    <label>
-                      {name}
-                      <TextInput
-                        {...inputProps}
-                        value={value}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        className={`${errors.length > 0 ? "is-invalid " : ""
-                          }form-control mb-1`}
-                      />
-                      {errors.length > 0 && (
-                        <ul className="errors">
-                          {errors.map((error, index) => (
-                            <li
-                              data-testid="error"
-                              style={{ overflowWrap: "anywhere" }}
-                              key={index}
-                            >
-                              {error}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </label>
+                X
+              </button>
+              {error.message}
+            </li>
+          ))}
+        </ul>
+      )}
+      <pre>Authenticated User (Test): {JSON.stringify(user, null, 4)}</pre>
+      <Button
+        className="btn btn-primary"
+        whileProcessing={<i>Processing...</i>}
+        onClick={() =>
+          errorHandler(axios.post("/Authentication").then(loadCurrentUser))
+        }
+      >
+        Login
+      </Button>
+      &nbsp;
+      <Button
+        className="btn btn-primary"
+        whileProcessing={<i>Processing...</i>}
+        onClick={() =>
+          errorHandler(axios.delete("/Authentication").then(loadCurrentUser))
+        }
+      >
+        Log Out
+      </Button>
+      <form>
+        {form.map(({ name, inputProps, ...formElement }, index) => (
+          <div
+            key={index}
+            style={{
+              width: "200px",
+              display: "inline-block",
+              paddingLeft: "10px",
+              verticalAlign: "top",
+            }}
+          >
+            <Leaf
+              showErrors={showAllValidation}
+              model={model}
+              onChange={setModel}
+              validationModel={validationModel}
+              {...formElement}
+            >
+              {(value, onChange, onBlur, errors) => (
+                <label>
+                  {name}
+                  <TextInput
+                    {...inputProps}
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    className={`${
+                      errors.length > 0 ? "is-invalid " : ""
+                    }form-control mb-1`}
+                  />
+                  {errors.length > 0 && (
+                    <ul className="errors">
+                      {errors.map((error, index) => (
+                        <li
+                          data-testid="error"
+                          style={{ overflowWrap: "anywhere" }}
+                          key={index}
+                        >
+                          {error}
+                        </li>
+                      ))}
+                    </ul>
                   )}
-                </Leaf>
-              </div>
-            ))}
-            <br />
+                </label>
+              )}
+            </Leaf>
+          </div>
+        ))}
+        <br />
         &nbsp;
         <br />
-            <button
-              disabled={isSubmitting}
-              className="btn btn-primary"
-              type="submit"
-              onClick={submit}
-              style={{ marginLeft: "10px" }}
-            >
-              {isSubmitting ? "Submitting..." : "Submit"}
-            </button>
-          </form>
-          <br />
+        <button
+          disabled={isSubmitting}
+          className="btn btn-primary"
+          type="submit"
+          onClick={submit}
+          style={{ marginLeft: "10px" }}
+        >
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
+      </form>
+      <br />
       &nbsp;
-          <br />
-          <button
-            className="btn btn-secondary"
-            onClick={() =>
-              setModel(set("person.favoriteNumber").to(undefined).in(model))
-            }
-            style={{ marginLeft: "10px" }}
-          >
-            Delete Favorite #
+      <br />
+      <button
+        className="btn btn-secondary"
+        onClick={() =>
+          setModel(set("person.favoriteNumber").to(undefined).in(model))
+        }
+        style={{ marginLeft: "10px" }}
+      >
+        Delete Favorite #
       </button>
-        </div>
-      );
+    </div>
+  );
 }
