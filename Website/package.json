@@ -5,10 +5,10 @@
   "type": "module",
   "dependencies": {
     "axios": "^0.20.0",
-    "bootstrap": "4.5.2",
-    "leaf-validator": "^3.6.2",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "bootstrap": "4.5.3",
+    "leaf-validator": "^4.0.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
     "react-scripts": "3.4.3"
   },
   "devDependencies": {
