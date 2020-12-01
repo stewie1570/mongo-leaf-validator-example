@@ -6,7 +6,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "bootstrap": "4.5.3",
-    "leaf-validator": "^5.1.0",
+    "leaf-validator": "^5.1.2",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-scripts": "3.4.3"
