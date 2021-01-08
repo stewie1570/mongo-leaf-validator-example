@@ -133,7 +133,7 @@ export function App() {
           errorHandler(axios.delete("/Authentication").then(loadCurrentUser))
         }
       >
-        Log Out
+        Logout
       </Button>
       <form>
         {form.map(({ name, inputProps, ...formElement }, index) => (
