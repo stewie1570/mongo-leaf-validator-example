@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/Website/bin/Debug/netcoreapp3.1/mongo-leaf-validator-example.dll",
+            "program": "${workspaceFolder}/Website/bin/Debug/net5.0/mongo-leaf-validator-example.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Website",
             "stopAtEntry": false,
