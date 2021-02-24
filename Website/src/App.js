@@ -123,7 +123,7 @@ export function App() {
           errorHandler(axios.post("/Authentication").then(loadCurrentUser))
         }
       >
-        Login
+        Fake Login
       </Button>
       &nbsp;
       <Button
@@ -133,7 +133,7 @@ export function App() {
           errorHandler(axios.delete("/Authentication").then(loadCurrentUser))
         }
       >
-        Logout
+        Fake Logout
       </Button>
       <form>
         {form.map(({ name, inputProps, ...formElement }, index) => (
