@@ -11,3 +11,4 @@
 - Add **appsettings.Development.json** to the root directory.
 - Add the key **MongoConnectionString** for persistence.
 - Add the key **RedisConnectionString** for authentication.
+
